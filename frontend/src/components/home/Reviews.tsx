@@ -1,9 +1,16 @@
+import { Link } from "react-router";
 import Container from "../ui/Container";
+import ReviewCarousel from "../reviews/ReviewCarousel";
+import ReviewForm from "../reviews/ReviewForm";
 import { GOOGLE_REVIEWS_URL } from "../../data/links";
 import { REVIEW_SUMMARY } from "../../data/reviews";
+import { useReviews } from "../../hooks/useReviews";
+import { useMoments } from "../../hooks/useMoments";
 
 export default function Reviews() {
-  const { rating, reviewCount, reviews } = REVIEW_SUMMARY;
+  const { rating, reviewCount } = REVIEW_SUMMARY;
+  const { data: reviews, addReview } = useReviews();
+  const { data: celebrationMoments } = useMoments("CELEBRATION");
 
   return (
     <section className="border-t border-line py-20">
@@ -15,31 +22,21 @@ export default function Reviews() {
               ★
             </span>
           </p>
-          <p className="mt-2 text-sm text-muted">from {reviewCount} reviews on Google</p>
+          <p className="mt-2 text-sm text-muted">from {reviewCount} reviews on Google, plus reviews shared here</p>
         </div>
 
-        <ul className="mt-10 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
-          {reviews.map((review) => (
-            <li key={review.author} className="rounded-xl border border-line bg-white p-5">
-              <p className="text-gold" aria-label="5 out of 5 stars">
-                ★★★★★
-              </p>
-              <blockquote className="mt-2 text-sm leading-relaxed text-ink">“{review.text}”</blockquote>
-              <p className="mt-3 text-xs font-medium text-muted">{review.author}</p>
-            </li>
-          ))}
-        </ul>
+        <ReviewCarousel reviews={reviews} celebrationMoments={celebrationMoments} />
 
-        <p className="mt-8 text-center">
-          <a
-            href={GOOGLE_REVIEWS_URL}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="text-sm font-medium text-brand hover:underline"
-          >
+        <p className="mt-6 flex flex-wrap justify-center gap-x-6 gap-y-2 text-center text-sm">
+          <a href={GOOGLE_REVIEWS_URL} target="_blank" rel="noopener noreferrer" className="font-medium text-brand hover:underline">
             Read all reviews on Google →
           </a>
+          <Link to="/celebrations" className="font-medium text-brand hover:underline">
+            See celebrations & happy moments →
+          </Link>
         </p>
+
+        <ReviewForm onSubmitted={addReview} />
       </Container>
     </section>
   );

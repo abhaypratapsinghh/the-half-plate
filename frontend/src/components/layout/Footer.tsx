@@ -18,6 +18,9 @@ export default function Footer() {
           <Link to="/menu" className="hover:text-ink">
             Menu
           </Link>
+          <Link to="/celebrations" className="hover:text-ink">
+            Celebrations
+          </Link>
           <Link to="/contact" className="hover:text-ink">
             Contact
           </Link>

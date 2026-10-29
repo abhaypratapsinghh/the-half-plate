@@ -7,6 +7,7 @@ import { closeNav, toggleNav } from "../../store/uiSlice";
 const NAV_LINKS = [
   { to: "/", label: "Home" },
   { to: "/menu", label: "Menu" },
+  { to: "/celebrations", label: "Celebrations" },
   { to: "/contact", label: "Contact" },
 ];
 

@@ -5,6 +5,7 @@ import Footer from "./components/layout/Footer";
 
 const HomePage = lazy(() => import("./pages/HomePage"));
 const MenuPage = lazy(() => import("./pages/MenuPage"));
+const CelebrationsPage = lazy(() => import("./pages/CelebrationsPage"));
 const ContactPage = lazy(() => import("./pages/ContactPage"));
 const CreditsPage = lazy(() => import("./pages/CreditsPage"));
 const NotFoundPage = lazy(() => import("./pages/NotFoundPage"));
@@ -29,6 +30,7 @@ export default function App() {
       <Route element={<Layout />}>
         <Route index element={<HomePage />} />
         <Route path="menu" element={<MenuPage />} />
+        <Route path="celebrations" element={<CelebrationsPage />} />
         <Route path="contact" element={<ContactPage />} />
         <Route path="credits" element={<CreditsPage />} />
         <Route path="*" element={<NotFoundPage />} />

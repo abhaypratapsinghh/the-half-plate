@@ -1,9 +1,29 @@
 spring:
   application:
     name: the-half-plate-backend
+  servlet:
+    multipart:
+      max-file-size: 5MB
+      max-request-size: 5MB
+  datasource:
+    # Defaults assume a local Postgres with a `half_plate` database. In
+    # production, BackendApplication parses Render's DATABASE_URL (postgres://
+    # scheme) into these same properties at startup, overriding these defaults.
+    url: jdbc:postgresql://localhost:5432/half_plate
+    username: postgres
+    password: postgres
+  jpa:
+    open-in-view: false
+    hibernate:
+      # Schema is created/updated from the JPA entities automatically; fine
+      # for this project's scale, a real migration tool would replace this
+      # if the schema outgrows simple additive changes.
+      ddl-auto: update
 
 server:
   port: ${PORT:8080}
+  error:
+    include-message: always
 
 # Dev-only CORS origin for WebConfig. Change this (or override with an env
 # var / profile) when a real deployed frontend origin exists.

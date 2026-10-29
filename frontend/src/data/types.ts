@@ -63,3 +63,24 @@ export interface PhotoCredit {
   /** Wikimedia Commons file page. */
   source: string;
 }
+
+/** A guest review/feedback entry submitted on the site (distinct from the static Google review snapshot). */
+export interface GuestReview {
+  id: string;
+  author: string;
+  rating: number;
+  text: string;
+  createdAt: string;
+}
+
+export type MomentCategory = "CELEBRATION" | "HAPPY_MOMENT";
+
+/** A celebration or happy-moment photo shared by a guest. */
+export interface Moment {
+  id: string;
+  category: MomentCategory;
+  caption: string;
+  submittedBy: string | null;
+  imageUrl: string;
+  createdAt: string;
+}
