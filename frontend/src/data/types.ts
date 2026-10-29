@@ -28,16 +28,19 @@ export interface Offer {
   validity: string;
 }
 
-export interface ContactInfo {
-  addressLines: string[];
-  phone: string;
-  email: string;
-}
-
 export interface SocialLink {
   platform: string;
   icon: string;
   url: string;
+}
+
+export interface ContactInfo {
+  addressLines: string[];
+  phone: string;
+  email: string;
+  socialLinks: SocialLink[];
+  /** Google Maps embed URL for the restaurant's location. */
+  mapEmbedUrl: string;
 }
 
 export interface Testimonial {
