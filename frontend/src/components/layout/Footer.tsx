@@ -7,11 +7,11 @@ export default function Footer() {
 
   return (
     <footer className="border-t border-line py-8 text-sm text-muted">
-      <Container className="flex flex-col items-center justify-between gap-4 sm:flex-row">
+      <Container className="flex flex-col items-center gap-4 text-center sm:flex-row sm:justify-between sm:text-left">
         <p>&copy; 2026 The Half Plate. All rights reserved.</p>
-        <div className="flex items-center gap-6">
+        <div className="flex flex-wrap items-center justify-center gap-x-6 gap-y-2">
           {contact && (
-            <a href={`tel:${contact.phone}`} className="hover:text-ink">
+            <a href={`tel:${contact.phone}`} className="whitespace-nowrap hover:text-ink">
               {contact.phone}
             </a>
           )}
@@ -21,7 +21,7 @@ export default function Footer() {
           <Link to="/contact" className="hover:text-ink">
             Contact
           </Link>
-          <Link to="/credits" className="hover:text-ink">
+          <Link to="/credits" className="whitespace-nowrap hover:text-ink">
             Photo credits
           </Link>
         </div>
