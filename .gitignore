@@ -1,0 +1,28 @@
+# This root .gitignore is a convenience superset for anyone cloning the
+# whole repo. frontend/ and backend/ each also carry their own .gitignore
+# scoped to themselves, so either folder stays correct if split out later.
+
+### Node (frontend/) ###
+node_modules/
+dist/
+dist-ssr/
+*.local
+
+### Java / Maven (backend/) ###
+target/
+.mvn/wrapper/maven-wrapper.jar
+!**/src/main/**/target/
+!**/src/test/**/target/
+
+### IDE ###
+.idea/
+.vscode/
+*.iml
+*.iws
+*.ipr
+.classpath
+.project
+.settings/
+
+### OS ###
+.DS_Store

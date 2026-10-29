@@ -1,29 +1,9 @@
 /* ==========================================
-   THE HALF PLATE - MAIN STYLESHEET
-   Production-ready CSS Structure
+   THE HALF PLATE - GLOBAL STYLESHEET
+   Ported near-verbatim from the original css/styles.css.
+   Design tokens live in variables.css (imported below).
 ========================================== */
-
-/* ==========================================
-   1. CSS VARIABLES & ROOT STYLES
-========================================== */
-:root {
-  /* Professional Color Palette */
-  --primary-dark: #2d5016;
-  --primary-medium: #4a7c2c;
-  --primary-light: #8bc34a;
-  --accent-gold: #d4a574;
-  --neutral-white: #ffffff;
-  --neutral-light-gray: #f8f9fa;
-  --neutral-gray: #e8eaed;
-  --neutral-dark-gray: #6c757d;
-  --text-primary: #212529;
-  --text-secondary: #6c757d;
-  --border-color: #dee2e6;
-  --shadow-light: 0 2px 8px rgba(0, 0, 0, 0.08);
-  --shadow-medium: 0 4px 16px rgba(0, 0, 0, 0.12);
-  --shadow-dark: 0 8px 24px rgba(0, 0, 0, 0.15);
-  --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-}
+@import "./variables.css";
 
 * {
   box-sizing: border-box;
@@ -615,7 +595,22 @@ footer {
 }
 
 /* ==========================================
-   9. RESPONSIVE DESIGN
+   9. MOBILE NAV TOGGLE (new — the original
+   static site hid .nav-links at 768px with
+   no replacement)
+========================================== */
+.nav-toggle {
+  display: none;
+  background: none;
+  border: none;
+  color: var(--neutral-white);
+  font-size: 1.5rem;
+  cursor: pointer;
+  padding: 0.5rem;
+}
+
+/* ==========================================
+   10. RESPONSIVE DESIGN
 ========================================== */
 @media (max-width: 1024px) {
   h1 {
@@ -661,7 +656,34 @@ footer {
     gap: 1rem;
   }
 
+  .nav-toggle {
+    display: block;
+  }
+
   .nav-links {
+    display: none;
+    position: absolute;
+    top: 100%;
+    left: 0;
+    right: 0;
+    flex-direction: column;
+    gap: 0;
+    background: var(--primary-dark);
+    box-shadow: var(--shadow-medium);
+    padding: 0;
+  }
+
+  .nav-links.is-open {
+    display: flex;
+  }
+
+  .nav-links a {
+    display: block;
+    width: 100%;
+    padding: 1rem 1.5rem;
+  }
+
+  .nav-links a::after {
     display: none;
   }
 

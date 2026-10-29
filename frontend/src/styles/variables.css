@@ -1,0 +1,22 @@
+/* ==========================================
+   THE HALF PLATE - DESIGN TOKENS
+   Ported from the original css/styles.css
+========================================== */
+:root {
+  /* Professional Color Palette */
+  --primary-dark: #2d5016;
+  --primary-medium: #4a7c2c;
+  --primary-light: #8bc34a;
+  --accent-gold: #d4a574;
+  --neutral-white: #ffffff;
+  --neutral-light-gray: #f8f9fa;
+  --neutral-gray: #e8eaed;
+  --neutral-dark-gray: #6c757d;
+  --text-primary: #212529;
+  --text-secondary: #6c757d;
+  --border-color: #dee2e6;
+  --shadow-light: 0 2px 8px rgba(0, 0, 0, 0.08);
+  --shadow-medium: 0 4px 16px rgba(0, 0, 0, 0.12);
+  --shadow-dark: 0 8px 24px rgba(0, 0, 0, 0.15);
+  --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
