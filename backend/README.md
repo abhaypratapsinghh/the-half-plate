@@ -27,6 +27,14 @@ curl http://localhost:8080/api/menu
 curl http://localhost:8080/api/offers
 ```
 
+## API docs (Swagger)
+
+Interactive, browsable docs for every endpoint above, via
+[springdoc-openapi](https://springdoc.org/):
+
+- Swagger UI: `http://localhost:8080/swagger-ui/index.html`
+- Raw OpenAPI JSON: `http://localhost:8080/v3/api-docs`
+
 CORS is open (dev-only) to `http://localhost:5173` — the Vite frontend's
 default dev port — via `cors.allowed-origin` in `application.yml`.
 
