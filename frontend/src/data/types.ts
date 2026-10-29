@@ -38,12 +38,28 @@ export interface ContactInfo {
   addressLines: string[];
   phone: string;
   email: string;
+  openingHours: string;
   socialLinks: SocialLink[];
   /** Google Maps embed URL for the restaurant's location. */
   mapEmbedUrl: string;
 }
 
-export interface Testimonial {
-  text: string;
+export interface Review {
   author: string;
+  text: string;
+}
+
+export interface ReviewSummary {
+  rating: number;
+  reviewCount: number;
+  /** Verbatim 5-star Google reviews. */
+  reviews: Review[];
+}
+
+export interface PhotoCredit {
+  author: string;
+  license: string;
+  licenseUrl: string;
+  /** Wikimedia Commons file page. */
+  source: string;
 }
