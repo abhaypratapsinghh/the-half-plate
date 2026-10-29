@@ -1,0 +1,11 @@
+spring:
+  application:
+    name: the-half-plate-backend
+
+server:
+  port: 8080
+
+# Dev-only CORS origin for WebConfig. Change this (or override with an env
+# var / profile) when a real deployed frontend origin exists.
+cors:
+  allowed-origin: http://localhost:5173
