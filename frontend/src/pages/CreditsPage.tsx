@@ -20,7 +20,7 @@ export default function CreditsPage() {
                 <a href={credit.source} className="font-medium text-ink hover:text-brand">
                   {item.name}
                 </a>
-                <span className="text-muted">
+                <span className="ml-auto text-right text-muted">
                   {credit.author} ·{" "}
                   <a href={credit.licenseUrl} className="hover:text-brand">
                     {credit.license}
