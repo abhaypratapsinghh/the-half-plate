@@ -10,4 +10,6 @@ public interface ReviewService {
     List<Review> getReviews();
 
     Review addReview(String author, int rating, String text);
+
+    void deleteReview(String id);
 }

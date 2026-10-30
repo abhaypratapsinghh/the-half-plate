@@ -14,9 +14,9 @@ import java.time.Instant;
 import java.util.UUID;
 
 /**
- * Metadata for a celebration/happy-moment photo. The image bytes themselves
- * live in {@link MomentPhotoEntity} (a separate table, keyed by this id) so
- * listing moments never has to pull photo blobs off disk.
+ * Metadata for a celebration photo. The image bytes themselves live in
+ * {@link MomentPhotoEntity} (a separate table, keyed by this id) so listing
+ * moments never has to pull photo blobs off disk.
  */
 @Entity
 @Table(name = "moments")
@@ -28,7 +28,7 @@ public class MomentEntity {
 
     @Enumerated(EnumType.STRING)
     @Column(nullable = false, length = 20)
-    private MomentCategory category;
+    private MomentCategory category = MomentCategory.CELEBRATION;
 
     @Column(nullable = false, length = 200)
     private String caption;
@@ -42,8 +42,7 @@ public class MomentEntity {
     protected MomentEntity() {
     }
 
-    public MomentEntity(MomentCategory category, String caption, String submittedBy, Instant createdAt) {
-        this.category = category;
+    public MomentEntity(String caption, String submittedBy, Instant createdAt) {
         this.caption = caption;
         this.submittedBy = submittedBy;
         this.createdAt = createdAt;
@@ -51,10 +50,6 @@ public class MomentEntity {
 
     public UUID getId() {
         return id;
-    }
-
-    public MomentCategory getCategory() {
-        return category;
     }
 
     public String getCaption() {

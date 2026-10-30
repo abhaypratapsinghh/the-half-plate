@@ -11,6 +11,7 @@ import org.springframework.web.server.ResponseStatusException;
 
 import java.time.Instant;
 import java.util.List;
+import java.util.UUID;
 
 /**
  * Persists guest reviews/feedback in Postgres, seeded on first boot with the
@@ -64,6 +65,23 @@ public class JpaReviewService implements ReviewService {
 
         ReviewEntity entity = repository.save(new ReviewEntity(trimmedAuthor, rating, trimmedText, Instant.now()));
         return toModel(entity);
+    }
+
+    @Override
+    public void deleteReview(String id) {
+        UUID uuid = parseId(id);
+        if (!repository.existsById(uuid)) {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Review not found.");
+        }
+        repository.deleteById(uuid);
+    }
+
+    private UUID parseId(String id) {
+        try {
+            return UUID.fromString(id);
+        } catch (IllegalArgumentException e) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Invalid review id.");
+        }
     }
 
     private Review toModel(ReviewEntity entity) {

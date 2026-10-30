@@ -10,7 +10,7 @@ import { useMoments } from "../../hooks/useMoments";
 export default function Reviews() {
   const { rating, reviewCount } = REVIEW_SUMMARY;
   const { data: reviews, addReview } = useReviews();
-  const { data: celebrationMoments } = useMoments("CELEBRATION");
+  const { data: celebrationMoments } = useMoments();
 
   return (
     <section className="border-t border-line py-20">
@@ -32,7 +32,7 @@ export default function Reviews() {
             Read all reviews on Google →
           </a>
           <Link to="/celebrations" className="font-medium text-brand hover:underline">
-            See celebrations & happy moments →
+            See celebrations →
           </Link>
         </p>
 

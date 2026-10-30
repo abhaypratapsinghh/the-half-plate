@@ -1,16 +1,15 @@
 import { useState } from "react";
 import type { ChangeEvent, FormEvent } from "react";
 import { submitMoment } from "../../services/momentService";
-import type { Moment, MomentCategory } from "../../data/types";
+import type { Moment } from "../../data/types";
 
 interface MomentUploadFormProps {
-  category: MomentCategory;
   title: string;
   description: string;
   onSubmitted: (moment: Moment) => void;
 }
 
-export default function MomentUploadForm({ category, title, description, onSubmitted }: MomentUploadFormProps) {
+export default function MomentUploadForm({ title, description, onSubmitted }: MomentUploadFormProps) {
   const [caption, setCaption] = useState("");
   const [submittedBy, setSubmittedBy] = useState("");
   const [photo, setPhoto] = useState<File | null>(null);
@@ -31,7 +30,7 @@ export default function MomentUploadForm({ category, title, description, onSubmi
     setError(null);
     setSubmitting(true);
     try {
-      const moment = await submitMoment({ category, caption, submittedBy: submittedBy || undefined, photo });
+      const moment = await submitMoment({ caption, submittedBy: submittedBy || undefined, photo });
       onSubmitted(moment);
       setCaption("");
       setSubmittedBy("");

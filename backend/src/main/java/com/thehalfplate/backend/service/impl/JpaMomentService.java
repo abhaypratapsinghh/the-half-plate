@@ -3,7 +3,6 @@ package com.thehalfplate.backend.service.impl;
 import com.thehalfplate.backend.entity.MomentEntity;
 import com.thehalfplate.backend.entity.MomentPhotoEntity;
 import com.thehalfplate.backend.model.Moment;
-import com.thehalfplate.backend.model.MomentCategory;
 import com.thehalfplate.backend.model.MomentPhoto;
 import com.thehalfplate.backend.repository.MomentPhotoRepository;
 import com.thehalfplate.backend.repository.MomentRepository;
@@ -22,10 +21,10 @@ import java.util.Set;
 import java.util.UUID;
 
 /**
- * Persists celebration/happy-moment photos in Postgres. Metadata lives in
- * {@code moments}; the image bytes live in a separate {@code moment_photos}
- * table (see {@link MomentEntity}) so listing a gallery never has to pull
- * photo blobs off disk — only the dedicated photo endpoint does.
+ * Persists celebration photos in Postgres. Metadata lives in {@code moments};
+ * the image bytes live in a separate {@code moment_photos} table (see
+ * {@link MomentEntity}) so listing a gallery never has to pull photo blobs
+ * off disk — only the dedicated photo endpoint does.
  */
 @Service
 public class JpaMomentService implements MomentService {
@@ -43,19 +42,13 @@ public class JpaMomentService implements MomentService {
 
     @Override
     @Transactional(readOnly = true)
-    public List<Moment> getMoments(MomentCategory category) {
-        List<MomentEntity> entities = category == null
-                ? momentRepository.findAllByOrderByCreatedAtDesc()
-                : momentRepository.findByCategoryOrderByCreatedAtDesc(category);
-        return entities.stream().map(this::toModel).toList();
+    public List<Moment> getMoments() {
+        return momentRepository.findAllByOrderByCreatedAtDesc().stream().map(this::toModel).toList();
     }
 
     @Override
     @Transactional
-    public Moment addMoment(MomentCategory category, String caption, String submittedBy, MultipartFile photo) {
-        if (category == null) {
-            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Category is required.");
-        }
+    public Moment addMoment(String caption, String submittedBy, MultipartFile photo) {
         String trimmedCaption = caption == null ? "" : caption.trim();
         if (trimmedCaption.isEmpty() || trimmedCaption.length() > 200) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Caption must be between 1 and 200 characters.");
@@ -83,7 +76,6 @@ public class JpaMomentService implements MomentService {
         }
 
         MomentEntity moment = momentRepository.save(new MomentEntity(
-                category,
                 trimmedCaption,
                 trimmedSubmittedBy.isEmpty() ? null : trimmedSubmittedBy,
                 Instant.now()
@@ -101,6 +93,17 @@ public class JpaMomentService implements MomentService {
         return new MomentPhoto(photo.getContentType(), photo.getData());
     }
 
+    @Override
+    @Transactional
+    public void deleteMoment(String id) {
+        UUID uuid = parseId(id);
+        if (!momentRepository.existsById(uuid)) {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Moment not found.");
+        }
+        momentPhotoRepository.deleteById(uuid);
+        momentRepository.deleteById(uuid);
+    }
+
     private UUID parseId(String id) {
         try {
             return UUID.fromString(id);
@@ -111,6 +114,6 @@ public class JpaMomentService implements MomentService {
 
     private Moment toModel(MomentEntity entity) {
         String id = entity.getId().toString();
-        return new Moment(id, entity.getCategory(), entity.getCaption(), entity.getSubmittedBy(), "/api/moments/" + id + "/photo", entity.getCreatedAt());
+        return new Moment(id, entity.getCaption(), entity.getSubmittedBy(), "/api/moments/" + id + "/photo", entity.getCreatedAt());
     }
 }

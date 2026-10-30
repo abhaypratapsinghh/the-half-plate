@@ -29,3 +29,8 @@ server:
 # var / profile) when a real deployed frontend origin exists.
 cors:
   allowed-origin: http://localhost:5173
+
+# Shared secret required (as the X-Admin-Secret header) to delete a review or
+# moment. Unset/blank disables the delete endpoints entirely.
+app:
+  admin-secret: ${ADMIN_SECRET:}

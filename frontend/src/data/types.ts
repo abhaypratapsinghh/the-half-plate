@@ -73,12 +73,9 @@ export interface GuestReview {
   createdAt: string;
 }
 
-export type MomentCategory = "CELEBRATION" | "HAPPY_MOMENT";
-
-/** A celebration or happy-moment photo shared by a guest. */
+/** A celebration photo shared by a guest. */
 export interface Moment {
   id: string;
-  category: MomentCategory;
   caption: string;
   submittedBy: string | null;
   imageUrl: string;
