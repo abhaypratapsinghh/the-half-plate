@@ -1,6 +1,6 @@
 import Container from "../components/ui/Container";
 import SectionHeading from "../components/ui/SectionHeading";
-import MomentGallery from "../components/moments/MomentGallery";
+import MomentCarousel from "../components/moments/MomentCarousel";
 import MomentUploadForm from "../components/moments/MomentUploadForm";
 import { useMoments } from "../hooks/useMoments";
 
@@ -14,7 +14,7 @@ export default function CelebrationsPage() {
           title="Celebrations at The Half Plate"
           subtitle="Birthdays, anniversaries, and get-togethers we've been lucky to host"
         />
-        <MomentGallery
+        <MomentCarousel
           moments={celebrations.data}
           emptyMessage="No celebration photos yet — be the first to share one!"
         />

@@ -7,6 +7,7 @@ import com.thehalfplate.backend.model.MomentPhoto;
 import com.thehalfplate.backend.repository.MomentPhotoRepository;
 import com.thehalfplate.backend.repository.MomentRepository;
 import com.thehalfplate.backend.service.MomentService;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -24,13 +25,16 @@ import java.util.UUID;
  * Persists celebration photos in Postgres. Metadata lives in {@code moments};
  * the image bytes live in a separate {@code moment_photos} table (see
  * {@link MomentEntity}) so listing a gallery never has to pull photo blobs
- * off disk — only the dedicated photo endpoint does.
+ * off disk — only the dedicated photo endpoint does. Capped at
+ * {@link #MAX_MOMENTS}: the oldest moments are deleted as new ones come in,
+ * so the celebrations page always shows a small, current set.
  */
 @Service
 public class JpaMomentService implements MomentService {
 
     private static final Set<String> ALLOWED_CONTENT_TYPES = Set.of("image/jpeg", "image/png", "image/webp");
     private static final long MAX_FILE_SIZE_BYTES = 5L * 1024 * 1024;
+    private static final int MAX_MOMENTS = 12;
 
     private final MomentRepository momentRepository;
     private final MomentPhotoRepository momentPhotoRepository;
@@ -81,8 +85,20 @@ public class JpaMomentService implements MomentService {
                 Instant.now()
         ));
         momentPhotoRepository.save(new MomentPhotoEntity(moment.getId(), contentType, data));
+        evictOldestBeyondLimit();
 
         return toModel(moment);
+    }
+
+    private void evictOldestBeyondLimit() {
+        long overflow = momentRepository.count() - MAX_MOMENTS;
+        if (overflow <= 0) return;
+
+        List<MomentEntity> oldest = momentRepository.findAllByOrderByCreatedAtAsc(PageRequest.of(0, (int) overflow));
+        for (MomentEntity entity : oldest) {
+            momentPhotoRepository.deleteById(entity.getId());
+            momentRepository.deleteById(entity.getId());
+        }
     }
 
     @Override
